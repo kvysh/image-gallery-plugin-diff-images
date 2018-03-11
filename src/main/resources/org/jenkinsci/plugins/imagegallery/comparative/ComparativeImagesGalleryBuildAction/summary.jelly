@@ -1,0 +1,63 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+    <script type="text/javascript" src="${rootURL}/plugin/image-gallery/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="${rootURL}/plugin/image-gallery/js/jquery.colorbox.js"></script>
+    <script type="text/javascript" src="${rootURL}/plugin/image-gallery/js/jquery.jstree.js"></script>
+    <script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(document).ready(function(){
+      jQuery("a.leaf").each(function(idx, el) {
+        var html = jQuery(el).clone().find('img').attr("width", ${from.imageInnerWidth}).end().html();
+		var temp = (String(html).split('none;">'))[1];
+		var links = temp.split(",");
+		var replaceText = "";
+		jQuery.each( links, function( index, value ) {
+			if( $(links).size()-1 != index) {
+				var values = value.split("_SPLIT_");
+				if(values[2]==0) {
+					values[2] = 910;
+				}
+				replaceText = replaceText + '<h4>'+values[1]+'</h4><img src="'+values[0]+'" title="'+values[1]+'" width="'+values[2]+'"/>';
+			}
+		});
+
+          jQuery(el).colorbox({
+              inline: false,
+              photo: true,
+              close: '${%Close}',
+              innerWidth: Math.min((2 * ${from.imageInnerWidth}) + 25, jQuery(window).width() - 50),
+              height: '100%',
+              html: '<div style="overflow: auto; float: left;">' +replaceText+ '</div>'
+          });
+      });
+
+        var tree = jQuery(".comparative-gallery-tree").jstree({
+            "plugins" : [ "themes", "html_data" ]  ,
+            core : {
+                "animation" : 0
+            }
+        });
+        tree.find('.leaf').css('height', ${from.imageWidth} + 10);
+
+
+        });
+    </script>
+    <script type="text/javascript">
+    	function changeClassName(ele) {
+			var parent = ele.parentNode;
+			if(parent.className == "jstree-open") {
+				parent.className = "jstree-closed";
+			} else {
+				parent.className = "jstree-open";
+			}
+		}
+    </script>
+    <link href="${rootURL}/plugin/image-gallery/css/colorbox.css" type="text/css" rel="stylesheet" />
+    <link href="${rootURL}/plugin/image-gallery/css/plugin.css" type="text/css" rel="stylesheet" />
+    <h3>${from.title}</h3>
+    <div class="comparative-gallery-tree">
+        <ul>
+        <st:include page="filetree.jelly" it="${from.images}" from="${from}"/>
+        </ul>
+    </div>
+</j:jelly>

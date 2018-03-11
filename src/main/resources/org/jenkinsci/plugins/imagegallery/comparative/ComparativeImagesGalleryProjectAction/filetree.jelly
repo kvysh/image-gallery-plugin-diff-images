@@ -1,0 +1,48 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <j:forEach items="${it.nodes}" var="node" varStatus="st">
+        <li>
+            <a onclick="changeClassName(this)" style="cursor: pointer;" id="folder"><b>${node.key}</b></a>
+            <j:if test="${node.value.nodes.size() != 0}">
+                <ul>
+                    <st:include page="filetree.jelly" it="${node.value}" from="${from}"/>
+                </ul>
+            </j:if>
+            <j:if test="${node.value.leafs.size() != 0}">
+                <ul>
+                    <li>
+                        <a href="test" class="leaf"><u>View Gallery</u>
+						<span style="display: none;">
+                        <j:forEach items="${node.value.leafs}" var="img" varStatus="st">
+                            <!-- <img src="artifact/${img.name}" title="Root: ${img.baseRoot}" width="${from.imageWidth}" /> -->
+							<!-- <a href="artifact/${img.name}" >${img.name}</a> -->
+							ws/${img.name}_SPLIT_${img.baseRoot}_SPLIT_${from.imageWidth},
+                        </j:forEach>
+						</span>
+                        </a>
+                    </li>
+                </ul>
+            </j:if>
+        </li>
+        <!--
+        <div class="infolder-leaf">
+            <span>Compared images : ${i.key}</span>
+            <a class='gallery' rel="${i.key}" href="artifact/${img.name}" title="${img.name}">
+                <j:choose>
+                    <j:when test="${from.imageWidth > 0}">
+                        <j:forEach items="${i.value}" var="img">
+                            <img src="artifact/${img.name}" title="Root: ${img.baseRoot}" width="${from.imageWidth}" />
+                        </j:forEach>
+                    </j:when>
+                    <j:otherwise>
+                        <j:forEach items="${i.value}" var="img">
+                            <img src="artifact/${img.name}" title="Root: ${img.baseRoot}" />
+                        </j:forEach>
+                    </j:otherwise>
+                </j:choose>
+            </a>
+        </div>
+        -->
+    </j:forEach>
+
+</j:jelly>

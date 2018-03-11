@@ -1,0 +1,10 @@
+.comparative-gallery-tree .jstree-icon {
+    vertical-align:top;
+}
+.comparative-gallery-tree a.leaf {
+    border : hidden 1px;
+    margin-top: 7px;
+    margin-bottom: 4px;
+    display: inline-block;
+    height: auto;
+}
