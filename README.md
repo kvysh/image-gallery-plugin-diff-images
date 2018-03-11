@@ -1,4 +1,4 @@
-# Jenkins Image Gallery Plug-in
+# Jenkins Image Gallery for Image Differences Plug-in
 
 This plug-in cloned from "https://github.com/jenkinsci/image-gallery-plugin/tree/image-gallery-1.1" and modified as per requirement.
 
